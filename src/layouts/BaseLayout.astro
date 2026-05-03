@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: string;
+}
+
+const {
+  title,
+  description = 'Теплый дом - стеклянные конструкции, окна, двери, жалюзи, кондиционеры в Евпатории. Качественные материалы и профессиональный монтаж.',
+  image = '/og-image.jpg',
+  type = 'website'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title === 'Теплый дом' ? title : `${title} | Теплый дом`;
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="generator" content={Astro.generator}>
+
+  <!-- Primary Meta Tags -->
+  <title>{fullTitle}</title>
+  <meta name="title" content={fullTitle}>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonicalURL}>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content={type}>
+  <meta property="og:url" content={canonicalURL}>
+  <meta property="og:title" content={fullTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content={new URL(image, Astro.site)}>
+  <meta property="og:locale" content="ru_RU">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content={canonicalURL}>
+  <meta property="twitter:title" content={fullTitle}>
+  <meta property="twitter:description" content={description}>
+  <meta property="twitter:image" content={new URL(image, Astro.site)}>
+
+  <!-- Schema.org LocalBusiness -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Теплый дом",
+      "description": "Стеклянные конструкции, окна, двери, жалюзи, кондиционеры",
+      "url": "https://tdevp.ru",
+      "telephone": "+79787160061",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "улица 9 Мая, 47А",
+        "addressLocality": "Евпатория",
+        "addressCountry": "RU"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "45.1983",
+        "longitude": "33.3669"
+      },
+      "priceRange": "$$"
+    }
+  </script>
+</head>
+<body>
+  <slot />
+</body>
+</html>

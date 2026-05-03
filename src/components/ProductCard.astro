@@ -1,0 +1,72 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  price: number;
+  priceUnit?: string;
+  priceNote?: string;
+  image: string;
+  slug: string;
+  inStock?: boolean;
+  featured?: boolean;
+}
+
+const {
+  title,
+  description,
+  price,
+  priceUnit = 'руб',
+  priceNote,
+  image,
+  slug,
+  inStock = true,
+  featured = false,
+} = Astro.props;
+
+const formattedPrice = new Intl.NumberFormat('ru-RU').format(price);
+---
+
+<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+  <a href={`/catalog/${slug}`} class="block">
+    <div class="relative h-64 bg-gray-200">
+      <img
+        src={image}
+        alt={title}
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+      {featured && (
+        <span class="absolute top-4 left-4 bg-primary-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+          Хит продаж
+        </span>
+      )}
+      {!inStock && (
+        <span class="absolute top-4 right-4 bg-gray-800 text-white text-xs font-bold px-3 py-1 rounded-full">
+          Под заказ
+        </span>
+      )}
+    </div>
+
+    <div class="p-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-2 hover:text-primary-600 transition-colors">
+        {title}
+      </h3>
+      <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+        {description}
+      </p>
+
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-2xl font-bold text-primary-600">
+            {priceNote && <span class="text-sm font-normal">{priceNote} </span>}
+            {formattedPrice}
+          </span>
+          <span class="text-gray-600 ml-1">{priceUnit}</span>
+        </div>
+        <span class="text-primary-600 font-medium hover:underline">
+          Подробнее →
+        </span>
+      </div>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,201 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}) satisfies GetStaticPaths;
+
+const { product } = Astro.props;
+const { Content } = await product.render();
+
+const allProducts = await getCollection('products');
+const relatedProducts = allProducts
+  .filter(p => p.data.category === product.data.category && p.slug !== product.slug)
+  .slice(0, 3);
+
+const formattedPrice = new Intl.NumberFormat('ru-RU').format(product.data.price);
+---
+
+<BaseLayout
+  title={product.data.title}
+  description={product.data.description}
+  image={product.data.image}
+  type="product"
+>
+  <Header />
+
+  <main class="py-12">
+    <div class="container-custom">
+      <!-- Breadcrumbs -->
+      <nav class="mb-8 text-sm">
+        <ol class="flex items-center space-x-2 text-gray-600">
+          <li><a href="/" class="hover:text-primary-600">Главная</a></li>
+          <li>/</li>
+          <li><a href="/catalog" class="hover:text-primary-600">Каталог</a></li>
+          <li>/</li>
+          <li class="text-gray-900">{product.data.title}</li>
+        </ol>
+      </nav>
+
+      <!-- Product Details -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <!-- Images -->
+        <div>
+          <div class="bg-gray-100 rounded-lg overflow-hidden mb-4">
+            <img
+              src={product.data.image}
+              alt={product.data.title}
+              class="w-full h-96 object-cover"
+            />
+          </div>
+          {product.data.images && product.data.images.length > 0 && (
+            <div class="grid grid-cols-3 gap-4">
+              {product.data.images.map((img) => (
+                <div class="bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:opacity-75 transition-opacity">
+                  <img
+                    src={img}
+                    alt={product.data.title}
+                    class="w-full h-24 object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- Info -->
+        <div>
+          <div class="mb-4">
+            <span class="inline-block bg-primary-100 text-primary-600 text-sm font-semibold px-3 py-1 rounded-full">
+              {product.data.category}
+            </span>
+          </div>
+
+          <h1 class="mb-4">{product.data.title}</h1>
+
+          <p class="text-gray-600 text-lg mb-6">
+            {product.data.description}
+          </p>
+
+          <!-- Price -->
+          <div class="bg-gray-50 rounded-lg p-6 mb-6">
+            <div class="flex items-baseline">
+              {product.data.priceNote && (
+                <span class="text-gray-600 mr-2">{product.data.priceNote}</span>
+              )}
+              <span class="text-4xl font-bold text-primary-600">
+                {formattedPrice}
+              </span>
+              <span class="text-gray-600 ml-2">{product.data.priceUnit}</span>
+            </div>
+            {!product.data.inStock && (
+              <p class="text-sm text-gray-500 mt-2">Под заказ</p>
+            )}
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="space-y-3 mb-8">
+            <a href="tel:+79787160061" class="block btn-primary text-center">
+              Позвонить для заказа
+            </a>
+            <a href="https://wa.me/79787160061" target="_blank" rel="noopener noreferrer" class="block btn-secondary text-center">
+              Написать в WhatsApp
+            </a>
+            <a href="https://t.me/+79787160061" target="_blank" rel="noopener noreferrer" class="block btn-secondary text-center">
+              Написать в Telegram
+            </a>
+          </div>
+
+          <!-- Additional Info -->
+          <div class="border-t pt-6">
+            <h3 class="font-semibold mb-3">Дополнительная информация</h3>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li class="flex items-center">
+                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Бесплатная консультация
+              </li>
+              <li class="flex items-center">
+                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Профессиональный монтаж
+              </li>
+              <li class="flex items-center">
+                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Гарантия качества
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="prose max-w-none mb-16">
+        <Content />
+      </div>
+
+      <!-- Related Products -->
+      {relatedProducts.length > 0 && (
+        <section>
+          <h2 class="mb-8">Похожие товары</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {relatedProducts.map((p) => (
+              <ProductCard
+                title={p.data.title}
+                description={p.data.description}
+                price={p.data.price}
+                priceUnit={p.data.priceUnit}
+                priceNote={p.data.priceNote}
+                image={p.data.image}
+                slug={p.slug}
+                inStock={p.data.inStock}
+                featured={p.data.featured}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .prose {
+    @apply text-gray-700 leading-relaxed;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 mt-8 mb-4;
+  }
+
+  .prose h3 {
+    @apply text-xl font-semibold text-gray-900 mt-6 mb-3;
+  }
+
+  .prose p {
+    @apply mb-4;
+  }
+
+  .prose ul {
+    @apply list-disc list-inside mb-4 space-y-2;
+  }
+
+  .prose li {
+    @apply text-gray-700;
+  }
+</style>

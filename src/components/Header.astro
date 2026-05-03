@@ -1,0 +1,88 @@
+---
+const navItems = [
+  { href: '/', label: 'Главная' },
+  { href: '/catalog', label: 'Каталог' },
+  { href: '/reviews', label: 'Отзывы' },
+  { href: '/gallery', label: 'Галерея' },
+  { href: '/about', label: 'О компании' },
+  { href: '/contacts', label: 'Контакты' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="bg-white shadow-md sticky top-0 z-50">
+  <nav class="container-custom py-4">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <a href="/" class="flex items-center space-x-2">
+        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-xl">ТД</span>
+        </div>
+        <span class="text-xl font-bold text-gray-900">Теплый дом</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex space-x-8">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class={`text-gray-700 hover:text-primary-600 font-medium ${
+                currentPath === item.href ? 'text-primary-600' : ''
+              }`}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Contact Button -->
+      <a href="tel:+79787160061" class="hidden md:block btn-primary">
+        Позвонить
+      </a>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-button"
+        class="md:hidden p-2 text-gray-700 hover:text-primary-600"
+        aria-label="Открыть меню"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+      <ul class="space-y-2">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class={`block py-2 px-4 rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-600 ${
+                currentPath === item.href ? 'bg-primary-50 text-primary-600' : ''
+              }`}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a href="tel:+79787160061" class="block mt-4 btn-primary text-center">
+        Позвонить
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+</script>

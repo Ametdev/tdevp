@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getCollection } from 'astro:content';
+
+const products = await getCollection('products');
+const featuredProducts = products
+  .filter(p => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 6);
+
+const categories = [
+  { name: 'Стеклянные конструкции', icon: '🪟', description: 'Перегородки, душевые, ограждения' },
+  { name: 'Окна и защита', icon: '🏠', description: 'Металлопластиковые окна, мягкие окна' },
+  { name: 'Двери', icon: '🚪', description: 'Межкомнатные и входные двери' },
+  { name: 'Подоконники', icon: '📐', description: 'Россия и Германия' },
+  { name: 'Кондиционеры', icon: '❄️', description: 'Эконом и дизайнерские' },
+  { name: 'Жалюзи и шторы', icon: '🪟', description: 'Все виды жалюзи и штор' },
+];
+---
+
+<BaseLayout title="Теплый дом">
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
+      <div class="container-custom">
+        <div class="max-w-3xl">
+          <h1 class="text-5xl font-bold mb-6 text-white">
+            Стеклянные конструкции и окна любой сложности
+          </h1>
+          <p class="text-xl mb-8 text-primary-50">
+            Качественные материалы, профессиональный монтаж и гарантия на все работы в Евпатории
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="/catalog" class="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors">
+              Смотреть каталог
+            </a>
+            <a href="/contacts" class="bg-primary-700 hover:bg-primary-800 text-white font-semibold py-3 px-8 rounded-lg border-2 border-white transition-colors">
+              Получить консультацию
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-16 bg-gray-50">
+      <div class="container-custom">
+        <h2 class="text-center mb-12">Наши категории</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {categories.map((category) => (
+            <a
+              href={`/catalog?category=${encodeURIComponent(category.name)}`}
+              class="bg-white rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow group"
+            >
+              <div class="text-4xl mb-4">{category.icon}</div>
+              <h3 class="text-xl font-semibold mb-2 group-hover:text-primary-600 transition-colors">
+                {category.name}
+              </h3>
+              <p class="text-gray-600 text-sm">{category.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    {featuredProducts.length > 0 && (
+      <section class="py-16">
+        <div class="container-custom">
+          <div class="text-center mb-12">
+            <h2 class="mb-4">Популярные товары</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              Самые востребованные товары и услуги нашей компании
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredProducts.map((product) => (
+              <ProductCard
+                title={product.data.title}
+                description={product.data.description}
+                price={product.data.price}
+                priceUnit={product.data.priceUnit}
+                priceNote={product.data.priceNote}
+                image={product.data.image}
+                slug={product.slug}
+                inStock={product.data.inStock}
+                featured={product.data.featured}
+              />
+            ))}
+          </div>
+          <div class="text-center mt-12">
+            <a href="/catalog" class="btn-primary">
+              Смотреть весь каталог
+            </a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Advantages -->
+    <section class="py-16 bg-gray-50">
+      <div class="container-custom">
+        <h2 class="text-center mb-12">Почему выбирают нас</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">Качество</h3>
+            <p class="text-gray-600 text-sm">Работаем только с проверенными материалами</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">Опыт</h3>
+            <p class="text-gray-600 text-sm">Более 10 лет на рынке Евпатории</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">Гарантия</h3>
+            <p class="text-gray-600 text-sm">До 5 лет гарантии на работы</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">Монтаж</h3>
+            <p class="text-gray-600 text-sm">Профессиональная установка включена</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-primary-600 text-white">
+      <div class="container-custom text-center">
+        <h2 class="mb-6 text-white">Готовы начать?</h2>
+        <p class="text-xl mb-8 text-primary-50 max-w-2xl mx-auto">
+          Свяжитесь с нами для бесплатной консультации и расчета стоимости
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="tel:+79787160061" class="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors">
+            Позвонить сейчас
+          </a>
+          <a href="/contacts" class="bg-primary-700 hover:bg-primary-800 text-white font-semibold py-3 px-8 rounded-lg border-2 border-white transition-colors">
+            Написать нам
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

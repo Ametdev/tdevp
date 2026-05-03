@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="О компании"
+  description="Компания Теплый дом - более 10 лет на рынке Евпатории. Качественные стеклянные конструкции, окна, двери."
+>
+  <Header />
+
+  <main class="py-12">
+    <div class="container-custom">
+      <h1 class="mb-8">О компании Теплый дом</h1>
+
+      <div class="prose max-w-none">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+          <div>
+            <h2>Наша история</h2>
+            <p class="text-gray-700 leading-relaxed">
+              Компания "Теплый дом" работает на рынке строительных материалов и услуг в Евпатории более 10 лет.
+              За это время мы завоевали доверие сотен клиентов благодаря качественной продукции и профессиональному подходу.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+              Мы специализируемся на изготовлении и установке стеклянных конструкций, металлопластиковых окон,
+              дверей, жалюзи и кондиционеров. Каждый проект выполняется с учетом индивидуальных пожеланий клиента.
+            </p>
+          </div>
+
+          <div>
+            <h2>Наши преимущества</h2>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-700">Более 10 лет опыта работы в Евпатории</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-700">Качественные материалы от проверенных производителей</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-700">Профессиональный монтаж с гарантией до 5 лет</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-700">Индивидуальный подход к каждому клиенту</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-700">Бесплатная консультация и замер</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-8 mb-12">
+          <h2 class="mb-6">Наши услуги</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="text-lg font-semibold mb-2">Стеклянные конструкции</h3>
+              <p class="text-gray-600 text-sm">Цельностеклянные перегородки, душевые кабины, ограждения, стеклянные двери любой сложности</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-2">Окна и защита</h3>
+              <p class="text-gray-600 text-sm">Металлопластиковые окна, мягкие окна, сетки плиссе любых размеров</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-2">Двери</h3>
+              <p class="text-gray-600 text-sm">Большой выбор межкомнатных и входных дверей на любой вкус и бюджет</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-2">Жалюзи и шторы</h3>
+              <p class="text-gray-600 text-sm">Горизонтальные, вертикальные, тканевые роллы, римские шторы, плиссе, фотопечать</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-2">Кондиционеры</h3>
+              <p class="text-gray-600 text-sm">Эконом сегмент и дизайнерские кондиционеры с профессиональной установкой</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-2">Подоконники</h3>
+              <p class="text-gray-600 text-sm">Качественные подоконники производства России и Германии</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <h2 class="mb-6">Свяжитесь с нами</h2>
+          <p class="text-gray-700 mb-8">
+            Готовы ответить на все ваши вопросы и помочь с выбором
+          </p>
+          <a href="/contacts" class="btn-primary">
+            Контакты
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 mb-4;
+  }
+
+  .prose h3 {
+    @apply text-xl font-semibold text-gray-900 mb-2;
+  }
+
+  .prose p {
+    @apply mb-4;
+  }
+
+  .prose ul {
+    @apply mb-4;
+  }
+</style>
