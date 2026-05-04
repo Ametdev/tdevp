@@ -30,13 +30,32 @@ function extractFrontmatter(content) {
 
   const frontmatter = {};
   const lines = match[1].split('\n');
+  let currentKey = null;
+  let currentArray = null;
 
   for (const line of lines) {
-    const [key, ...valueParts] = line.split(':');
-    if (key && valueParts.length > 0) {
-      let value = valueParts.join(':').trim();
-      value = value.replace(/^["']|["']$/g, '');
-      frontmatter[key.trim()] = value;
+    // Проверка на элемент массива
+    if (line.trim().startsWith('-') && currentKey) {
+      if (!currentArray) {
+        currentArray = [];
+        frontmatter[currentKey] = currentArray;
+      }
+      const value = line.trim().substring(1).trim();
+      currentArray.push(value);
+    } else {
+      // Обычное поле
+      const colonIndex = line.indexOf(':');
+      if (colonIndex > 0) {
+        currentKey = line.substring(0, colonIndex).trim();
+        const value = line.substring(colonIndex + 1).trim();
+        if (value) {
+          frontmatter[currentKey] = value.replace(/^["']|["']$/g, '');
+          currentArray = null;
+        } else {
+          // Пустое значение - возможно начало массива
+          currentArray = null;
+        }
+      }
     }
   }
 
