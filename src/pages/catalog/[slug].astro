@@ -47,7 +47,7 @@ const formattedPrice = new Intl.NumberFormat('ru-RU').format(product.data.price)
       </nav>
 
       <!-- Product Details -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
         <!-- Images -->
         <div>
           <div class="bg-gray-100 rounded-lg overflow-hidden mb-4">
@@ -143,7 +143,7 @@ const formattedPrice = new Intl.NumberFormat('ru-RU').format(product.data.price)
       </div>
 
       <!-- Description -->
-      <div class="prose prose-lg max-w-none">
+      <div class="product-content max-w-none">
         <Content />
       </div>
 
@@ -174,56 +174,47 @@ const formattedPrice = new Intl.NumberFormat('ru-RU').format(product.data.price)
   <Footer />
 </BaseLayout>
 
-<style>
-  .prose {
-    @apply text-gray-700 leading-relaxed space-y-6;
+<style is:global>
+  .product-content {
+    @apply text-gray-700 leading-relaxed;
   }
 
-  .prose h2 {
-    @apply text-2xl font-bold text-gray-900 mb-0 bg-white rounded-t-lg p-6 shadow-md;
+  /* Заголовки секций - верхняя часть карточки */
+  .product-content h2 {
+    @apply text-2xl font-bold text-gray-900 mb-0 mt-0 bg-white rounded-t-lg border-2 border-gray-300 p-6 pb-4 shadow-lg;
   }
 
-  .prose h2:first-of-type {
-    @apply rounded-lg;
+  .product-content h2:not(:first-child) {
+    @apply mt-4;
   }
 
-  .prose h2 + p,
-  .prose h2 + ul {
-    @apply mt-0 bg-white rounded-b-lg p-6 pt-0 shadow-md;
+  /* Параграфы после заголовков - нижняя часть карточки */
+  .product-content h2 + p {
+    @apply bg-white rounded-b-lg border-2 border-t-0 border-gray-300 p-6 pt-2 shadow-lg mt-0 mb-4;
   }
 
-  .prose h2:not(:first-of-type) {
-    @apply mt-6;
+  /* Списки после заголовков - нижняя часть карточки */
+  .product-content h2 + ul {
+    @apply bg-white rounded-b-lg border-2 border-t-0 border-gray-300 p-6 pt-2 shadow-lg mt-0 mb-4;
   }
 
-  .prose h3 {
-    @apply text-xl font-semibold text-gray-900 mt-6 mb-3;
+  /* Параграфы */
+  .product-content p {
+    @apply text-base leading-relaxed;
   }
 
-  .prose p {
-    @apply mb-0 text-base;
+  /* Списки */
+  .product-content ul {
+    @apply list-none space-y-3;
   }
 
-  .prose ul {
-    @apply list-none mb-0 space-y-3;
+  /* Элементы списков с галочками */
+  .product-content li {
+    @apply text-gray-700 pl-7 relative leading-relaxed;
   }
 
-  .prose li {
-    @apply text-gray-700 pl-6 relative;
-  }
-
-  .prose li::before {
+  .product-content li::before {
     content: "✓";
-    @apply absolute left-0 text-primary-600 font-bold;
-  }
-
-  /* Standalone paragraphs (not after h2) */
-  .prose p:not(h2 + p) {
-    @apply bg-white rounded-lg p-6 shadow-md;
-  }
-
-  /* Standalone lists (not after h2) */
-  .prose ul:not(h2 + ul) {
-    @apply bg-white rounded-lg p-6 shadow-md;
+    @apply absolute left-0 text-primary-600 font-bold text-lg;
   }
 </style>
