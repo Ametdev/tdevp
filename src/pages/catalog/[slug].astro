@@ -143,13 +143,13 @@ const formattedPrice = new Intl.NumberFormat('ru-RU').format(product.data.price)
       </div>
 
       <!-- Description -->
-      <div class="prose max-w-none mb-16">
+      <div class="prose prose-lg max-w-none">
         <Content />
       </div>
 
       <!-- Related Products -->
       {relatedProducts.length > 0 && (
-        <section>
+        <section class="mt-16">
           <h2 class="mb-8">Похожие товары</h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             {relatedProducts.map((p) => (
@@ -176,11 +176,24 @@ const formattedPrice = new Intl.NumberFormat('ru-RU').format(product.data.price)
 
 <style>
   .prose {
-    @apply text-gray-700 leading-relaxed;
+    @apply text-gray-700 leading-relaxed space-y-6;
   }
 
   .prose h2 {
-    @apply text-2xl font-bold text-gray-900 mt-8 mb-4;
+    @apply text-2xl font-bold text-gray-900 mb-0 bg-white rounded-t-lg p-6 shadow-md;
+  }
+
+  .prose h2:first-of-type {
+    @apply rounded-lg;
+  }
+
+  .prose h2 + p,
+  .prose h2 + ul {
+    @apply mt-0 bg-white rounded-b-lg p-6 pt-0 shadow-md;
+  }
+
+  .prose h2:not(:first-of-type) {
+    @apply mt-6;
   }
 
   .prose h3 {
@@ -188,14 +201,29 @@ const formattedPrice = new Intl.NumberFormat('ru-RU').format(product.data.price)
   }
 
   .prose p {
-    @apply mb-4;
+    @apply mb-0 text-base;
   }
 
   .prose ul {
-    @apply list-disc list-inside mb-4 space-y-2;
+    @apply list-none mb-0 space-y-3;
   }
 
   .prose li {
-    @apply text-gray-700;
+    @apply text-gray-700 pl-6 relative;
+  }
+
+  .prose li::before {
+    content: "✓";
+    @apply absolute left-0 text-primary-600 font-bold;
+  }
+
+  /* Standalone paragraphs (not after h2) */
+  .prose p:not(h2 + p) {
+    @apply bg-white rounded-lg p-6 shadow-md;
+  }
+
+  /* Standalone lists (not after h2) */
+  .prose ul:not(h2 + ul) {
+    @apply bg-white rounded-lg p-6 shadow-md;
   }
 </style>

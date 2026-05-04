@@ -16,7 +16,12 @@ const sortedReviews = reviews.sort((a, b) => b.data.date.getTime() - a.data.date
 
   <main class="py-12">
     <div class="container-custom">
-      <h1 class="mb-8">Отзывы клиентов</h1>
+      <div class="flex items-center justify-between mb-8">
+        <h1>Отзывы клиентов</h1>
+        <a href="/review-form" class="btn-primary">
+          Оставить отзыв
+        </a>
+      </div>
 
       {sortedReviews.length === 0 ? (
         <div class="text-center py-16">

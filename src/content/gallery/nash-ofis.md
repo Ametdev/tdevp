@@ -1,6 +1,6 @@
 ---
 title: "Наш офис"
-date: "2026-05-04"
+date: 2026-05-04
 category: "Офис"
 images:
   - /images/gallery/office/office-1.webp

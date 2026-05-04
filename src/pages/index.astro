@@ -17,7 +17,7 @@ const categories = [
   { name: 'Двери', icon: '🚪', description: 'Межкомнатные и входные двери' },
   { name: 'Подоконники', icon: '📐', description: 'Россия и Германия' },
   { name: 'Кондиционеры', icon: '❄️', description: 'Эконом и дизайнерские' },
-  { name: 'Жалюзи и шторы', icon: '🪟', description: 'Все виды жалюзи и штор' },
+  { name: 'Жалюзи и шторы', icon: '🌞', description: 'Все виды жалюзи и штор' },
 ];
 ---
 
@@ -26,20 +26,23 @@ const categories = [
 
   <main>
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
-      <div class="container-custom">
-        <div class="max-w-3xl">
-          <h1 class="text-5xl font-bold mb-6 text-white">
+    <section class="relative bg-primary-600 text-white py-20 min-h-[600px] flex items-end">
+      <div class="absolute inset-0 z-0 hidden md:block bg-black bg-opacity-40">
+        <img src="/images/hero-bg.jpg" alt="Теплый дом" class="w-full h-full object-cover mix-blend-overlay" />
+      </div>
+      <div class="container-custom relative z-10 pb-12">
+        <div class="max-w-3xl p-8 md:p-0 rounded-lg">
+          <h1 class="text-5xl font-bold mb-6 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
             Стеклянные конструкции и окна любой сложности
           </h1>
-          <p class="text-xl mb-8 text-primary-50">
+          <p class="text-xl mb-8 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
             Качественные материалы, профессиональный монтаж и гарантия на все работы в Евпатории
           </p>
           <div class="flex flex-wrap gap-4">
-            <a href="/catalog" class="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors">
+            <a href="/catalog" class="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors shadow-lg">
               Смотреть каталог
             </a>
-            <a href="/contacts" class="bg-primary-700 hover:bg-primary-800 text-white font-semibold py-3 px-8 rounded-lg border-2 border-white transition-colors">
+            <a href="/contacts" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded-lg border-2 border-white transition-colors shadow-lg">
               Получить консультацию
             </a>
           </div>

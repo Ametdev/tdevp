@@ -39,16 +39,7 @@ const sortedGallery = galleryItems.sort((a, b) => b.data.date.getTime() - a.data
               <div class="bg-white rounded-lg shadow-md overflow-hidden">
                 <div class="p-6 border-b border-gray-200">
                   <div class="flex items-center justify-between">
-                    <div>
-                      <h2 class="text-2xl font-bold text-gray-900">{item.data.title}</h2>
-                      <p class="text-sm text-gray-500 mt-1">
-                        {item.data.date.toLocaleDateString('ru-RU', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
-                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900">{item.data.title}</h2>
                     <span class="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-medium">
                       {item.data.category}
                     </span>
@@ -60,12 +51,12 @@ const sortedGallery = galleryItems.sort((a, b) => b.data.date.getTime() - a.data
                   )}
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
-                  {item.data.images.map((image: string) => (
-                    <div class="aspect-square overflow-hidden rounded-lg bg-gray-100">
+                  {item.data.images.map((image: string, index: number) => (
+                    <div class="aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer gallery-image" data-image={image} data-gallery-id={item.slug}>
                       <img
                         src={image}
                         alt={item.data.title}
-                        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300 cursor-pointer"
+                        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                         loading="lazy"
                       />
                     </div>
@@ -80,4 +71,85 @@ const sortedGallery = galleryItems.sort((a, b) => b.data.date.getTime() - a.data
   </main>
 
   <Footer />
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
+    <button id="lightbox-close" class="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-10">&times;</button>
+    <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-5xl hover:text-gray-300 z-10">&lsaquo;</button>
+    <button id="lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-5xl hover:text-gray-300 z-10">&rsaquo;</button>
+    <img id="lightbox-image" src="" alt="" class="max-w-[90vw] max-h-[90vh] object-contain" />
+  </div>
 </BaseLayout>
+
+<script>
+  let currentImages: string[] = [];
+  let currentIndex = 0;
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+  const closeBtn = document.getElementById('lightbox-close');
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+
+  function openLightbox(images: string[], index: number) {
+    currentImages = images;
+    currentIndex = index;
+    showImage();
+    lightbox?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function showImage() {
+    if (lightboxImage && currentImages[currentIndex]) {
+      lightboxImage.src = currentImages[currentIndex];
+    }
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % currentImages.length;
+    showImage();
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+    showImage();
+  }
+
+  // Event listeners
+  closeBtn?.addEventListener('click', closeLightbox);
+  prevBtn?.addEventListener('click', prevImage);
+  nextBtn?.addEventListener('click', nextImage);
+
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox?.classList.contains('hidden')) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'ArrowRight') nextImage();
+    }
+  });
+
+  // Gallery images click
+  document.querySelectorAll('.gallery-image').forEach((img) => {
+    img.addEventListener('click', () => {
+      const galleryId = img.getAttribute('data-gallery-id');
+      const allGalleryImages = Array.from(
+        document.querySelectorAll(`.gallery-image[data-gallery-id="${galleryId}"]`)
+      );
+      const images = allGalleryImages.map(el => el.getAttribute('data-image') || '');
+      const index = allGalleryImages.indexOf(img);
+      openLightbox(images, index);
+    });
+  });
+</script>
